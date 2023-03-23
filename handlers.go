@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 
+	"github.com/alexcoder04/legendum/processor"
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,6 +14,6 @@ func IndexHandler(c *gin.Context) {
 func ApiHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"status": "success",
-		"data":   []string{},
+		"data":   processor.Load(),
 	})
 }

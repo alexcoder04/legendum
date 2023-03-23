@@ -19,3 +19,15 @@ type Channel struct {
 	Name string
 	Url  string
 }
+
+type Config struct {
+	Sources Sources `yaml:"Sources"`
+}
+
+type Sources struct {
+	RSS []RssSource `yaml:"RSS"`
+}
+
+type RssSource struct {
+	Url string `yaml:"Url"`
+}
