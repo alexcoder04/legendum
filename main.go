@@ -8,7 +8,7 @@ func main() {
 	r.Static("/static", "./static")
 
 	r.GET("/", IndexHandler)
-	r.GET("/load", ApiHandler)
+	r.GET("/load/:starttime", ApiHandler)
 
 	r.Run(":6363")
 }

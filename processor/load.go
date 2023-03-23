@@ -1,11 +1,29 @@
 package processor
 
-import "github.com/alexcoder04/legendum/common"
+import (
+	"log"
 
-var ContentBuffer = make([]common.Post, 0)
+	"github.com/alexcoder04/legendum/common"
+)
 
-func Load() []common.Post {
-	contentChunk := ContentBuffer[:5]
-	ContentBuffer = ContentBuffer[5:]
-	return contentChunk
+func Load(startTime int) []common.Post {
+	posts := []common.Post{}
+
+	rows, err := DB.Query("SELECT id, title, text, thumbnail_url, deleted, time_created, time_processing, author_name, author_url FROM posts WHERE time_processing > ? ORDER BY time_processing ASC LIMIT 5", startTime)
+	if err != nil {
+		log.Printf("failed to query posts: %s", err.Error())
+		return posts
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		post := common.Post{}
+		err := rows.Scan(&post.Id, &post.Title, &post.Text, &post.ThumbnailUrl, &post.Deleted, &post.TimeCreated, &post.TimeProcessing, &post.AuthorName, &post.AuthorUrl)
+		if err != nil {
+			continue
+		}
+		posts = append(posts, post)
+	}
+
+	return posts
 }

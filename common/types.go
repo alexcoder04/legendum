@@ -1,23 +1,19 @@
 package common
 
-import "time"
-
 type Post struct {
-	TimeCreated    time.Time
-	TimeProcessing time.Time
-	Title          string
-	Text           string
-	Url            string
-	ThumbnailUrl   string
-	Id             string
-	Channel        Channel
-	Deleted        bool
-}
+	Id      int
+	Deleted bool
 
-type Channel struct {
-	Type string
-	Name string
-	Url  string
+	Title        string
+	Text         string
+	Url          string
+	ThumbnailUrl string
+
+	TimeCreated    int64
+	TimeProcessing int64
+
+	AuthorName string
+	AuthorUrl  string
 }
 
 type Config struct {
@@ -29,5 +25,6 @@ type Sources struct {
 }
 
 type RssSource struct {
-	Url string `yaml:"Url"`
+	Url  string `yaml:"Url"`
+	Name string `yaml:"Name"`
 }

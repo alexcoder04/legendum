@@ -5,34 +5,34 @@ import (
 	"github.com/mmcdole/gofeed"
 )
 
-func rssToPosts(rss *gofeed.Feed) []common.Post {
+func Rss(url string, name string) ([]common.Post, error) {
 	posts := []common.Post{}
-	for _, item := range rss.Items {
-		p := common.Post{
-			TimeCreated:    *item.PublishedParsed,
-			TimeProcessing: *item.PublishedParsed,
-			Title:          item.Title,
-			Text:           item.Content,
-			Url:            item.Link,
-			//ThumbnailUrl:   item.Image.URL,
-			Channel: common.Channel{
-				Type: "rss",
-				Name: item.Author.Name,
-				Url:  rss.FeedLink,
-			},
-			Deleted: false,
-		}
-		p.Id = Hash(p)
-		posts = append(posts, p)
-	}
-	return posts
-}
 
-func Rss(url string) ([]common.Post, error) {
 	parser := gofeed.NewParser()
+
 	feed, err := parser.ParseURL(url)
 	if err != nil {
-		return []common.Post{}, err
+		return posts, err
 	}
-	return rssToPosts(feed), nil
+
+	if name == "" {
+		name = feed.Author.Name
+	}
+
+	for _, item := range feed.Items {
+		posts = append(posts, common.Post{
+			Id:    0,
+			Title: item.Title,
+			Text:  item.Content,
+			Url:   item.Link,
+			//ThumbnailUrl:   item.Image.URL,
+			Deleted:        false,
+			TimeCreated:    (*item.PublishedParsed).Unix(),
+			TimeProcessing: (*item.PublishedParsed).Unix(),
+			AuthorName:     name,
+			AuthorUrl:      url,
+		})
+	}
+
+	return posts, nil
 }
