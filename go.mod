@@ -3,13 +3,10 @@ module github.com/alexcoder04/legendum
 go 1.20
 
 require (
+	github.com/alexcoder04/friendly/v2 v2.1.1
 	github.com/gin-gonic/gin v1.9.0
+	github.com/mattn/go-sqlite3 v1.14.16
 	github.com/mmcdole/gofeed v1.2.1
-)
-
-require (
-	github.com/alexcoder04/friendly/v2 v2.1.1 // indirect
-	github.com/mattn/go-sqlite3 v1.14.16 // indirect
 )
 
 require (

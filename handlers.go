@@ -10,7 +10,7 @@ import (
 )
 
 func IndexHandler(c *gin.Context) {
-	c.HTML(http.StatusOK, "index.html", nil)
+	c.HTML(http.StatusOK, "index.html", gin.H{})
 }
 
 func ApiHandler(c *gin.Context) {
